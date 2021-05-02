@@ -41,6 +41,15 @@ VALUES
         'User',
         'joel@joelburton.com');
 
+INSERT INTO users
+    (username, password, first_name, last_name, email)
+VALUES
+    ('dengxinjuan',
+        '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
+        'xinjuan',
+        'deng',
+        'dengxinj@gmail.com');
+
 --insert data into reads
 INSERT INTO reads
     (username,book_id)
