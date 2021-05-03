@@ -18,12 +18,10 @@ const app = express();
 //app.use(cors());
 app.use(express.json()); // tell app to use json
 //app.use(morgan("tiny"));
-app.use(authenticateJWT);
+app.use(authenticateJWT); //get auth token for all route
 
 app.use("/auth", authRoutes);
-//app.use("/companies", companiesRoutes);
 app.use("/users", usersRoutes);
-//app.use("/jobs", jobsRoutes);
 
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {
