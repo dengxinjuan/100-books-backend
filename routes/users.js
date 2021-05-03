@@ -127,7 +127,7 @@ router.delete(
  * Authorization required: admin or same-user-as-:username
  **/
 
-router.patch("/:username", async function (req, res, next) {
+router.patch("/:username", ensureCorrectUser, async function (req, res, next) {
   try {
     /*const validator = jsonschema.validate(req.body, userUpdateSchema);
     if (!validator.valid) {
