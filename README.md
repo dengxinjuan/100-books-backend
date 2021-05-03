@@ -18,10 +18,12 @@ It is the backend created for the 100-books project.
 - user must include { username, password, firstName, lastName, email }
 
 [POST] /auth/token
-\*\* POST /auth/token: { username, password } => { token }
+-- POST /auth/token: { username, password } => { token }
 
-- {"username":"dog",
-- "password":"123456"}
+```
+{"username":"dog",
+"password":"123456"}
+```
 
 # users
 
