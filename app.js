@@ -3,7 +3,7 @@
 /** Express app for jobly. */
 
 const express = require("express");
-//const cors = require("cors");
+const cors = require("cors"); // it is a package for cors mutiple options
 
 const { NotFoundError } = require("./expressError");
 
@@ -15,7 +15,7 @@ const { authenticateJWT } = require("./middleware/authMiddle");
 
 const app = express();
 
-//app.use(cors());
+app.use(cors());
 app.use(express.json()); // tell app to use json
 //app.use(morgan("tiny"));
 app.use(authenticateJWT); //get auth token for all route
