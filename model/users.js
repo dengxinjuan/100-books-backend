@@ -4,11 +4,12 @@ const db = require("../db"); //connect database
 const { ExpressError, BadRequestError } = require("../expressError");
 const bcrypt = require("bcrypt");
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
+const { sqlForPartialUpdate } = require("../helpers/sql");
 
 class User {
   /** Find all users.
    *
-   * Returns [{ username, first_name, last_name, email, is_admin }, ...]
+   * Returns [{ username, first_name, last_name, email}, ...]
    **/
 
   static async findAll() {
@@ -30,7 +31,6 @@ class User {
    *   where read is [bookid, bookid,bookid]
    * wishlist id [wihslist,wishlist]
    *
-   * loggedin required
    **/
 
   static async get(username) {
@@ -225,6 +225,54 @@ class User {
     }
 
     throw new UnauthorizedError("Invalid username/password");
+  }
+
+  /***update profile function */
+
+  /** Update user data with `data`.
+   *
+   * This is a "partial update" --- it's fine if data doesn't contain
+   * all the fields; this only changes provided ones.
+   *
+   * ## You couldnt change username!!!
+   *
+   * Data can include:
+   *   { firstName, lastName, password, email}
+   *
+   * Returns { username, firstName, lastName, email }
+   *
+   * Throws NotFoundError if not found.
+   *
+   * WARNING: this function can set a new password or make a user an admin.
+   * Callers of this function must be certain they have validated inputs to this
+   * or a serious security risks are opened.
+   */
+
+  static async update(username, data) {
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
+    }
+
+    const { setCols, values } = sqlForPartialUpdate(data, {
+      firstName: "first_name",
+      lastName: "last_name",
+    });
+    const usernameVarIdx = "$" + (values.length + 1);
+
+    const querySql = `UPDATE users 
+                        SET ${setCols} 
+                        WHERE username = ${usernameVarIdx} 
+                        RETURNING username,
+                                  first_name AS "firstName",
+                                  last_name AS "lastName",
+                                  email`;
+    const result = await db.query(querySql, [...values, username]);
+    const user = result.rows[0];
+
+    if (!user) throw new NotFoundError(`No user: ${username}`);
+
+    delete user.password;
+    return user;
   }
 }
 

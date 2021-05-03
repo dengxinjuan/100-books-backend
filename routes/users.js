@@ -117,4 +117,29 @@ router.delete(
   }
 );
 
+/** PATCH /[username] { user } => { user }
+ *
+ * Data can include:
+ *   { firstName, lastName, password, email }
+ *
+ * Returns { username, firstName, lastName, email }
+ *
+ * Authorization required: admin or same-user-as-:username
+ **/
+
+router.patch("/:username", async function (req, res, next) {
+  try {
+    /*const validator = jsonschema.validate(req.body, userUpdateSchema);
+    if (!validator.valid) {
+      const errs = validator.errors.map(e => e.stack);
+      throw new BadRequestError(errs);
+    }*/
+
+    const user = await User.update(req.params.username, req.body);
+    return res.json({ user });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 module.exports = router;
