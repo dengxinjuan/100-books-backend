@@ -17,7 +17,7 @@ router.post("/register", async function (req, res, next) {
     const token = createToken(newUser);
     return res.status(201).json({ token });
   } catch (error) {
-    return next(err);
+    return next(error);
   }
 });
 
@@ -28,9 +28,6 @@ router.post("/register", async function (req, res, next) {
 	"lastName":"mark",
 	"email":"dog@gmail.com"
 	
-}
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRvZyIsImlhdCI6MTYxOTk5NTQ0OH0.WbFiJDJEkSsaa1qSybxgrzI3PLigU7zUv2ivPAh6Krc"
 }
 */
 

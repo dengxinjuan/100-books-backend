@@ -166,6 +166,7 @@ class User {
   /** LOG IN LOG OUT AUTHS FUNCTIONS HERE*/
 
   /**register function */
+  /*** the duplicated check function doesnt work and i dont know why */
 
   static async register({ username, password, firstName, lastName, email }) {
     const duplicateCheck = await db.query(
