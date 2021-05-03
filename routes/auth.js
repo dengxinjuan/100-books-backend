@@ -7,7 +7,7 @@ const { createToken } = require("../helpers/tokens");
 const { BadRequestError } = require("../expressError");
 const jsonschema = require("jsonschema");
 const userRegisterSchema = require("../json_schema.js/userRegisterSchema.json");
-const userAuth = require("../json_schema.js/userAuth.json");
+const userAuthSchema = require("../json_schema.js/userAuthSchema.json");
 
 /**register route, authoration: None. It will return token
  * * POST /auth/register:   { user } => { token }
@@ -47,7 +47,7 @@ router.post("/register", async function (req, res, next) {
 
 router.post("/token", async function (req, res, next) {
   try {
-    const validator = jsonschema.validate(req.body, userAuth);
+    const validator = jsonschema.validate(req.body, userAuthSchema);
     if (!validator.valid) {
       const errs = validator.errors.map((e) => e.stack);
       console.log(errs);
