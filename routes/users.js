@@ -38,7 +38,7 @@ router.get("/:username", async function (req, res, next) {
     const users = await User.get(req.params.username);
     return res.json({ users });
   } catch (error) {
-    return next(err);
+    return next(error);
   }
 });
 
