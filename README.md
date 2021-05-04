@@ -56,7 +56,8 @@ It is the backend created for the 100-books project.
       }
     }
   ```
-  [DELETE] users/:username
+
+[DELETE] users/:username
 
 - delete the user
 
