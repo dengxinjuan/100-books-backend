@@ -87,4 +87,12 @@ It is the backend created for the 100-books project.
 * Returns { username, firstName, lastName, email }
 *
 
+# Test
+
+- Using supertest to test the function. To run test, simply type 'jest'.
+
+```
+jest
+```
+
 To be continue.
