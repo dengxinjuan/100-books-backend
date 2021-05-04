@@ -63,13 +63,17 @@ It is the backend created for the 100-books project.
 [POST] users/:username/read/:id
 
 - add user's read book id
-  [DELETE] users/:username/unread/:id
+
+[DELETE] users/:username/unread/:id
+
 - delete user's read book id
 
 [POST] users/wish/:id
 
 - add user's wishlist book id
-  [DELETE] users/unwish/:id
+
+[DELETE] users/unwish/:id
+
 - remove users wish book id
 
 [PATCH] users/:username

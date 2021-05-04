@@ -11,13 +11,13 @@ const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users");
 const { authenticateJWT } = require("./middleware/authMiddle");
 
-//const morgan = require("morgan");
+const morgan = require("morgan"); // print out request external
 
 const app = express();
 
 app.use(cors());
 app.use(express.json()); // tell app to use json
-//app.use(morgan("tiny"));
+app.use(morgan("tiny")); // use morgan to print out the request
 app.use(authenticateJWT); //get auth token for all route
 
 app.use("/auth", authRoutes);
@@ -30,7 +30,7 @@ app.use(function (req, res, next) {
 
 /** Generic error handler; anything unhandled goes here. */
 app.use(function (err, req, res, next) {
-  if (process.env.NODE_ENV !== "test") console.error(err.stack);
+  if (process.env.NODE_ENV !== "test") console.log(err.stack);
   const status = err.status || 500;
   const message = err.message;
 
