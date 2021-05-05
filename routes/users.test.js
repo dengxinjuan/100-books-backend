@@ -70,13 +70,61 @@ describe("GET /users", function () {
     });
   });
 
+  test("delete users by username", async function () {
+    const resp = await request(app)
+      .delete("/users/u2")
+      .send({ _token: u2Token });
+    console.log(resp);
+    expect(resp.statusCode).toEqual(200);
+    expect(resp.body).toEqual({ deleted: "u2" });
+  });
+
   test("add users the read id", async function () {
     const resp = await request(app)
       .post("/users/u2/read/33333")
       .send({ _token: u2Token });
-    console.log(resp.body);
     expect(resp.statusCode).toEqual(200);
     expect(resp.body).toEqual({ read: "33333" });
+  });
+
+  test("remove users the read id", async function () {
+    const resp = await request(app)
+      .delete("/users/u2/unread/33333")
+      .send({ _token: u2Token });
+    expect(resp.statusCode).toEqual(200);
+    expect(resp.body).toEqual({ unread: "33333" });
+  });
+
+  test("add users the wish id", async function () {
+    const resp = await request(app)
+      .post("/users/u2/wish/33333")
+      .send({ _token: u2Token });
+    expect(resp.statusCode).toEqual(200);
+    expect(resp.body).toEqual({ wish: "33333" });
+  });
+
+  test("remove users the wish id", async function () {
+    const resp = await request(app)
+      .delete("/users/u2/unwish/33333")
+      .send({ _token: u2Token });
+    expect(resp.statusCode).toEqual(200);
+    expect(resp.body).toEqual({ unwish: "33333" });
+  });
+
+  test("patch user", async function () {
+    const resp = await request(app)
+      .patch("/users/u2")
+      .send({ firstName: "dengxinjuan", _token: u2Token });
+    console.log(resp.body);
+    expect(resp.statusCode).toEqual(200);
+    expect(resp.body).toEqual({
+      user: {
+        username: "u2",
+        firstName: "dengxinjuan",
+        lastName: "U2L",
+        email: "user2@user.com",
+      },
+    });
   });
 });
 
