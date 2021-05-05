@@ -124,8 +124,7 @@ router.delete(
  *
  * Returns { username, firstName, lastName, email }
  *
- * Authorization required: admin or same-user-as-:username
- **/
+ * Authorization required*/
 
 router.patch("/:username", ensureCorrectUser, async function (req, res, next) {
   try {
@@ -135,7 +134,16 @@ router.patch("/:username", ensureCorrectUser, async function (req, res, next) {
       throw new BadRequestError(errs);
     }*/
 
-    const user = await User.update(req.params.username, req.body);
+    /*we delete the token from body so we know the ensurecorrect user works*/
+    const c = Object.keys(req.body)
+      .filter((key) => key !== "_token")
+      .reduce((obj, key) => {
+        obj[key] = req.body[key];
+        return obj;
+      }, {});
+    //console.log(c);
+
+    const user = await User.update(req.params.username, c);
     return res.json({ user });
   } catch (err) {
     return next(err);
